@@ -18,8 +18,4 @@ module.exports = {
   findByAccountNumber: (model, accNumber) => {
     return model.findOne({ accountNumber: accNumber });
   },
-
-  findByAccountName: (model, accName) => {
-    return model.findOne({ accountName: accName });
-  },
 };

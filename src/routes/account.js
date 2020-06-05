@@ -5,10 +5,10 @@ router.route("/accounts").post(account.createAccount).get(account.getAccounts);
 
 router
   .route("/account")
-  .get(account.getAccountById)
-  .get(account.getAccountByAccountNumber)
-  .get(account.getAccountByAccountName)
+  .get(account.getByAccountNumber)
   .patch(account.updateAccount)
   .delete(account.removeAccount);
+
+router.get("/account", account.getAccountById);
 
 module.exports = router;

@@ -6,8 +6,9 @@ const TransactionSchema = new Schema({
   uuid: { type: String, default: v1 },
   amount: { type: Number, default: 0 },
   type: { type: String, required: true },
-  sender: { type: Schema.Types.ObjectId, ref: "Account" },
+  sender: { type: String },
   receiver: { type: String, required: true },
+  accountNumber: { type: Number },
   oldBalance: { type: Number },
   newBalance: { type: Number },
 });

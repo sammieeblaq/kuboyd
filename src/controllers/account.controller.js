@@ -37,7 +37,6 @@ module.exports = {
           };
         })
       );
-      // console.log(req.headers);
     } catch (error) {
       console.error("There's an error in your search.. Kindly contact Support");
     }
@@ -58,11 +57,13 @@ module.exports = {
         created: formatDate(account.created_at),
       });
     } catch (error) {
-      if (error) res.status(500).json({ error: error });
+      console.error(
+        "Cannot get Id of the given account.. Kindly contact support"
+      );
     }
   },
 
-  getAccountByAccountNumber: async (req, res) => {
+  getByAccountNumber: async (req, res) => {
     const { accNumber } = req.query;
     try {
       const account = await DB.findByAccountNumber(Account, accNumber);
@@ -76,51 +77,34 @@ module.exports = {
         accountBalance: account.balance,
         created: formatDate(account.created_at),
       });
+      // const { type } = account;
+      // console.log(type);
     } catch (error) {
-      if (error) res.status(500).json({ error: error });
-    }
-  },
-
-  getAccountByAccountName: async (req, res) => {
-    const { accName } = req.query;
-    try {
-      const account = await DB.findByAccountName(Account, accName);
-      res.json({
-        _id: account._id,
-        uuid: account.uuid,
-        accountName: account.accountName,
-        accountNumber: account.accountNumber,
-        accountType: account.type,
-        status: account.status,
-        accountBalance: account.balance,
-        created: formatDate(account.created_at),
-      });
-    } catch (error) {
-      if (error) res.status(500).json({ error: error });
+      console.error("Cannot get Account number.. Try again later");
     }
   },
 
   updateAccount: async (req, res) => {
     const { id } = req.query;
-
     try {
       await DB.updateOne(Account, id, req);
       res.json({
         message: "Account Updated",
       });
     } catch (error) {
-      if (error) res.status(500).json({ error: error });
+      console.error("Cannot update account");
     }
   },
 
   removeAccount: async (req, res) => {
     const { id } = req.query;
-
     try {
       await DB.deleteOne(Account, id);
       res.json({ message: "Account Deleted" });
     } catch (error) {
-      if (error) res.status(500).json({ error: error });
+      console.error(
+        "Unable to delete account.. Try again later or contact support"
+      );
     }
   },
 };
