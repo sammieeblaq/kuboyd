@@ -3,8 +3,6 @@ const { Schema } = mongoose;
 
 const UserSchema = new Schema(
   {
-    fistname: { type: String, trim: true, required: true },
-    lastname: { type: String, trim: true, required: true },
     email: {
       type: String,
       unique: "Email already exists",

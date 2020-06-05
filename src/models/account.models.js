@@ -1,12 +1,15 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const { v4 } = require("uuid");
 
 const AccountSchema = new Schema(
   {
-    accountNumber: { type: BigInt },
-    type: { type: String, required: true },
-    balance: { type: Number, default: 0 },
-    status: { type: String },
+    uuid: { type: String, default: v4 },
+    accountName: { type: String, trim: true },
+    accountNumber: { type: Number, unique: true },
+    type: { type: String },
+    balance: { type: Number, default: 0.0 },
+    status: { type: String, default: "active" },
   },
   { timestamps: { createdAt: "created_at" } }
 );

@@ -7,9 +7,7 @@ const mongoose = require("mongoose");
 const compression = require("compression");
 require("dotenv").config();
 
-// const adminRoute = require("../routes/admin.routes");
-// const reviewRoute = require("../routes/review.routes");
-// const reservationRoute = require("../routes/reservation.routes");
+const routes = require("../routes");
 
 app.use(logger("dev"));
 app.use(helmet());
@@ -19,8 +17,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 mongoose.set("useCreateIndex", true);
 
-// app.use("/admin", adminRoute);
-// app.use("/", reservationRoute);
-// app.use("/", reviewRoute);
+app.use("/", routes);
 
 module.exports = app;
