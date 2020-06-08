@@ -10,6 +10,7 @@ const AccountSchema = new Schema(
     type: { type: String },
     balance: { type: Number, default: 0.0 },
     status: { type: String, default: "active" },
+    // transactions: { type: Array },
   },
   { timestamps: { createdAt: "created_at" } }
 );

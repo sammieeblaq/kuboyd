@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const account = require("../controllers/account.controller");
+const { auth } = require("../middleware/authorization");
 
-router.route("/accounts").post(account.createAccount).get(account.getAccounts);
+// router.route("/accounts").post(account.createAccount)
+router.get("/accounts", auth, account.getAccounts);
 
 router
   .route("/account")

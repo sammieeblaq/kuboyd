@@ -1,5 +1,6 @@
 const User = require("../models/user.models");
 const encryption = require("../middleware/encryption");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
   signup: async (req, res) => {
@@ -34,8 +35,8 @@ module.exports = {
           id: user._id,
           email: user.email,
         };
-        const token = jwt.sign({ newObj }, process.env.JWT_SECRET, {
-          expiresIn: "90 days",
+        const token = jwt.sign(newObj, process.env.JWT_SECRET, {
+          expiresIn: "1h",
           algorithm: "HS256",
         });
         res.json({

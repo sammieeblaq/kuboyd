@@ -6,7 +6,7 @@ const DB = require("../utils/db.utils");
 module.exports = {
   creditAccount: async (req, res) => {
     const { accNum } = req.query;
-    const { creditAmount, receiver } = req.body;
+    const { creditAmount, sender } = req.body;
 
     const accountToCredit = await DB.findByAccountNumber(Account, accNum);
     const { accountName, balance, status } = accountToCredit;
@@ -14,8 +14,8 @@ module.exports = {
     const newTransaction = new Transaction({
       type: "Credit",
       accountNumber: accNum,
-      sender: accountName,
-      receiver: receiver,
+      receiver: accountName,
+      sender: sender,
       amount: parseFloat(creditAmount),
       oldBalance: balance,
       newBalance: newBalance,
@@ -26,5 +26,9 @@ module.exports = {
     } catch (error) {
       throw new Error("not saved");
     }
+  },
+
+  debitAccount: async (req, res) => {
+    const { accNum } = req.query;
   },
 };
