@@ -8,7 +8,7 @@ const UserSchema = new Schema(
       unique: "Email already exists",
       match: [/.+\@.+\..+/, "Please fill a valid email address"],
     },
-    phone: { type: Number, unique: true, required: true },
+    phone: { type: String, required: true },
     password: { type: String, required: true },
     role: { type: Number, default: 0 },
   },

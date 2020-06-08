@@ -6,21 +6,23 @@ const DB = require("../utils/db.utils");
 
 module.exports = {
   createAccount: async (req, res) => {
+    const { id, phone, email } = req.decoded;
     const accountNumber = acc.generateAccount();
-    const account = new Account({
-      accountName: req.body.accountName,
-      type: req.body.type,
-      accountNumber: accountNumber,
-    });
     try {
-      const result = await account.save();
-      res.json(result);
+      const account = await Account.create({
+        accountName: req.body.accountName,
+        type: req.body.type,
+        accountNumber: accountNumber,
+        accountOwner: { id, phone, email },
+      });
+      res.json(account);
     } catch (error) {
       if (error) res.status(500).json({ error: error });
     }
   },
 
   getAccounts: async (req, res) => {
+    // console.log(req.decoded);
     try {
       const accounts = await DB.find(Account);
       res.json(
@@ -29,6 +31,7 @@ module.exports = {
             _id: acc._id,
             uuid: acc.uuid,
             accountName: acc.accountName,
+            accountOwner: acc.accountOwner,
             accountNumber: acc.accountNumber,
             accountType: acc.type,
             status: acc.status,
@@ -50,6 +53,7 @@ module.exports = {
         _id: account._id,
         uuid: account.uuid,
         accountName: account.accountName,
+        accountOwner: account.accountOnwer,
         accountNumber: account.accountNumber,
         accountType: account.type,
         status: account.status,
@@ -72,6 +76,7 @@ module.exports = {
         uuid: account.uuid,
         accountName: account.accountName,
         accountNumber: account.accountNumber,
+        accountOnwer: account.accountOnwer,
         accountType: account.type,
         status: account.status,
         accountBalance: account.balance,
