@@ -9,7 +9,7 @@ const AccountSchema = new Schema(
     accountNumber: { type: Number, unique: true },
     accountOwner: { type: Object },
     type: { type: String },
-    balance: { type: Number, default: 0.0 },
+    balance: { type: Number },
     status: { type: String, default: "active" },
   },
   { timestamps: { createdAt: "created_at" } }

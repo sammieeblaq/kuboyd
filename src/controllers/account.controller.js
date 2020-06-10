@@ -91,9 +91,9 @@ module.exports = {
   },
 
   updateAccount: async (req, res) => {
-    const { id } = req.query;
+    const { accNum } = req.query;
     try {
-      await DB.updateOne(Account, id, req);
+      await DB.updateAccount(Account, accNum, req);
       res.json({
         message: "Account Updated",
       });

@@ -7,8 +7,12 @@ module.exports = {
     return model.findOne({ _id: id });
   },
 
-  updateOne: (model, id, req) => {
-    return model.updateOne({ _id: id }, { $set: req.body });
+  // updateOne: (model, id, req) => {
+  //   return model.updateOne({ _id: id }, { $set: req.body });
+  // },
+
+  updateAccount: (model, accNumber, req) => {
+    return model.updateOne({ accountNumber: accNumber }, { $set: req.body });
   },
 
   deleteOne: (model, accNumber) => {

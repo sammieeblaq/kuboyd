@@ -6,7 +6,7 @@ const authRoutes = require("./auth");
 const { auth } = require("../middleware/authorization");
 
 router.use("/", auth, accountRoutes);
-router.use("/", transactionRoutes);
+router.use("/", auth, transactionRoutes);
 router.use("/", authRoutes);
 
 module.exports = router;

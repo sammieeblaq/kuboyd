@@ -5,34 +5,31 @@ const DB = require("../utils/db.utils");
 
 module.exports = {
   creditAccount: async (req, res) => {
-    const { userAccountNumber } = req.query;
-    const { accNum } = req.body;
+    // Crediting account can also be known as depositing into your account
+    const { accNum } = req.query;
     const { creditAmount } = req.body;
 
-    const accountToDebit = await DB.findByAccountNumber(
-      Account,
-      userAccountNumber
-    );
     const accountToCredit = await DB.findByAccountNumber(Account, accNum);
-    const { accountName, balance } = accountToCredit;
+    let { accountName, balance } = accountToCredit;
     const newBalance = parseFloat(balance) + parseFloat(creditAmount);
 
-    const newTransaction = new Transaction({
-      type: "Credit",
-      accountNumber: accNum,
-      receiver: receiver,
-      sender: sender,
-      amount: parseFloat(creditAmount),
-      oldBalance: balance,
-      newBalance: newBalance,
-    });
+    const updateAccountBalance = (newBalance) => {
+      return DB.updateAccount(Account, accNum, req.body.newBalance);
+    };
+    updateAccountBalance();
     try {
-      const result = await newTransaction.save();
-      res.json(result);
+      const newTransaction = await Transaction.create({
+        type: "deposit",
+        accountNumber: accNum,
+        receiver: accountToCredit.accountOwner,
+        sender: accountName,
+        amount: parseFloat(creditAmount),
+        oldBalance: balance,
+        newBalance: newBalance,
+      });
+      res.json(newTransaction);
     } catch (error) {
       throw new Error("not saved");
     }
   },
-
-  transfer: async (req, res) => {},
 };
