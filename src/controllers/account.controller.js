@@ -7,11 +7,13 @@ const DB = require("../utils/db.utils");
 module.exports = {
   createAccount: async (req, res) => {
     const { id, phone, email } = req.decoded;
+    // console.log(req.decoded);
+    const { accountName, type } = req.body;
     const accountNumber = acc.generateAccount();
     try {
       const account = await Account.create({
-        accountName: req.body.accountName,
-        type: req.body.type,
+        accountName: accountName,
+        type: type,
         accountNumber: accountNumber,
         accountOwner: { id, phone, email },
       });
@@ -53,7 +55,7 @@ module.exports = {
         _id: account._id,
         uuid: account.uuid,
         accountName: account.accountName,
-        accountOwner: account.accountOnwer,
+        accountOwner: account.accountOwner,
         accountNumber: account.accountNumber,
         accountType: account.type,
         status: account.status,
@@ -76,14 +78,13 @@ module.exports = {
         uuid: account.uuid,
         accountName: account.accountName,
         accountNumber: account.accountNumber,
-        accountOnwer: account.accountOnwer,
+        accountOnwer: account.accountOwner,
         accountType: account.type,
         status: account.status,
         accountBalance: account.balance,
         created: formatDate(account.created_at),
       });
-      // const { type } = account;
-      // console.log(type);
+      console.log(account.accountOwner);
     } catch (error) {
       console.error("Cannot get Account number.. Try again later");
     }
@@ -102,9 +103,9 @@ module.exports = {
   },
 
   removeAccount: async (req, res) => {
-    const { id } = req.query;
+    const { accNumber } = req.query;
     try {
-      await DB.deleteOne(Account, id);
+      await DB.deleteOne(Account, accNumber);
       res.json({ message: "Account Deleted" });
     } catch (error) {
       console.error(

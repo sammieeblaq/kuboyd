@@ -5,16 +5,22 @@ const DB = require("../utils/db.utils");
 
 module.exports = {
   creditAccount: async (req, res) => {
-    const { accNum } = req.query;
-    const { creditAmount, sender } = req.body;
+    const { userAccountNumber } = req.query;
+    const { accNum } = req.body;
+    const { creditAmount } = req.body;
 
+    const accountToDebit = await DB.findByAccountNumber(
+      Account,
+      userAccountNumber
+    );
     const accountToCredit = await DB.findByAccountNumber(Account, accNum);
-    const { accountName, balance, status } = accountToCredit;
+    const { accountName, balance } = accountToCredit;
     const newBalance = parseFloat(balance) + parseFloat(creditAmount);
+
     const newTransaction = new Transaction({
       type: "Credit",
       accountNumber: accNum,
-      receiver: accountName,
+      receiver: receiver,
       sender: sender,
       amount: parseFloat(creditAmount),
       oldBalance: balance,
@@ -28,7 +34,5 @@ module.exports = {
     }
   },
 
-  debitAccount: async (req, res) => {
-    const { accNum } = req.query;
-  },
+  transfer: async (req, res) => {},
 };

@@ -1,11 +1,7 @@
 const router = require("express").Router();
 const account = require("../controllers/account.controller");
-const { auth } = require("../middleware/authorization");
 
-router
-  .route("/accounts")
-  .post(auth, account.createAccount)
-  .get(auth, account.getAccounts);
+router.route("/accounts").post(account.createAccount).get(account.getAccounts);
 
 router
   .route("/account")
@@ -13,6 +9,6 @@ router
   .patch(account.updateAccount)
   .delete(account.removeAccount);
 
-router.get("/account", account.getAccountById);
+router.get("/accountById", account.getAccountById);
 
 module.exports = router;

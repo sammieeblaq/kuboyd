@@ -38,7 +38,7 @@ module.exports = {
           role: user.role,
         };
         const token = jwt.sign(newObj, process.env.JWT_SECRET, {
-          expiresIn: "90 days",
+          expiresIn: "1 day",
           algorithm: "HS256",
         });
         res.json({

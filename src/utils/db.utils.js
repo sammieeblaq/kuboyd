@@ -11,8 +11,8 @@ module.exports = {
     return model.updateOne({ _id: id }, { $set: req.body });
   },
 
-  deleteOne: (model, id) => {
-    return model.deleteOne({ _id: id });
+  deleteOne: (model, accNumber) => {
+    return model.deleteOne({ accountNumber: accNumber });
   },
 
   findByAccountNumber: (model, accNumber) => {
