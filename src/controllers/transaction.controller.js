@@ -28,7 +28,6 @@ module.exports = {
         accNum,
         newBalance
       );
-
       const data = {
         id: newTransaction._id,
         accountNumber: accNum,
@@ -45,5 +44,15 @@ module.exports = {
     }
   },
 
-  transfer: (req, res) => {},
+  transferToAccount: async (req, res) => {
+    const { accNum } = req.query;
+    const { amount, recipientAcc } = req.body;
+
+    const [accountToCredit, accountToDebit] = await Promise.all([
+      DB.findByAccountNumber(Account, accNum),
+      DB.findByAccountNumber(Account, recipientAcc),
+    ]);
+    // const newBalance = parseFloat(balance) + parseFloat(creditAmount);
+    const transfer = (accountToCredit, accountToDebit, amount) => {};
+  },
 };

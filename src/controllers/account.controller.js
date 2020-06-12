@@ -16,7 +16,6 @@ module.exports = {
         type: type,
         accountNumber: accountNumber,
         accountOwner: { id, phone, email },
-        // balance: balance,
       });
       res.json(account);
     } catch (error) {
