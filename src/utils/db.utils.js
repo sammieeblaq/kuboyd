@@ -11,8 +11,11 @@ module.exports = {
   //   return model.updateOne({ _id: id }, { $set: req.body });
   // },
 
-  updateAccount: (model, accNumber, req) => {
-    return model.updateOne({ accountNumber: accNumber }, { $set: req.body });
+  updateAccount: (model, accNumber, amount) => {
+    return model.updateOne(
+      { accountNumber: accNumber },
+      { $set: { balance: amount } }
+    );
   },
 
   deleteOne: (model, accNumber) => {

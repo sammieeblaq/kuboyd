@@ -4,7 +4,7 @@ const { v1 } = require("uuid");
 
 const TransactionSchema = new Schema({
   uuid: { type: String, default: v1 },
-  amount: { type: Number, default: 0 },
+  amount: { type: Number },
   type: { type: String, required: true },
   sender: { type: Object },
   receiver: { type: Object, required: true },

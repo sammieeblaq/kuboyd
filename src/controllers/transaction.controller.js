@@ -12,11 +12,6 @@ module.exports = {
     const accountToCredit = await DB.findByAccountNumber(Account, accNum);
     let { accountName, balance } = accountToCredit;
     const newBalance = parseFloat(balance) + parseFloat(creditAmount);
-
-    const updateAccountBalance = (newBalance) => {
-      return DB.updateAccount(Account, accNum, req.body.newBalance);
-    };
-    updateAccountBalance();
     try {
       const newTransaction = await Transaction.create({
         type: "deposit",
@@ -24,12 +19,31 @@ module.exports = {
         receiver: accountToCredit.accountOwner,
         sender: accountName,
         amount: parseFloat(creditAmount),
-        oldBalance: balance,
+        oldBalance: parseFloat(balance),
         newBalance: newBalance,
       });
-      res.json(newTransaction);
+
+      const updatedAccount = await DB.updateAccount(
+        Account,
+        accNum,
+        newBalance
+      );
+
+      const data = {
+        id: newTransaction._id,
+        accountNumber: accNum,
+        amount: newTransaction.amount,
+        receiver: newTransaction.receiver,
+        transactionType: newTransaction.type,
+        oldBalance: newTransaction.oldBalance,
+        newBalance: newTransaction.newBalance,
+        updatedAccount,
+      };
+      return res.json(data);
     } catch (error) {
       throw new Error("not saved");
     }
   },
+
+  transfer: (req, res) => {},
 };

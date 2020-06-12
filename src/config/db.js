@@ -6,6 +6,7 @@ const connectDb = () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
+      // replicaSet: "rs",
     });
     console.log("connected to the database!!!");
   } catch (error) {

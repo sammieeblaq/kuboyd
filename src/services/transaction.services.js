@@ -1,3 +1,3 @@
 module.exports = {
-  newTransaction: (amount, sender, receiver) => {},
+  newTransaction: (sender, receiver, amount) => {},
 };
