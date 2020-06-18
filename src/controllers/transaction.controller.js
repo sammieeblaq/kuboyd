@@ -1,7 +1,7 @@
 const Transaction = require("../models/transaction.models");
 const Account = require("../models/account.models");
-const { formatDate } = require("../utils/time.utils");
 const DB = require("../utils/db.utils");
+const transaction = require("../services/transaction.services");
 
 module.exports = {
   creditAccount: async (req, res) => {
@@ -46,12 +46,22 @@ module.exports = {
 
   transferToAccount: async (req, res) => {
     const { accNum } = req.query;
-    const { amount, recipientAcc } = req.body;
+    const { amount, recipient } = req.body;
 
-    const [accountToCredit, accountToDebit] = await Promise.all([
-      DB.findByAccountNumber(Account, accNum),
-      DB.findByAccountNumber(Account, recipientAcc),
-    ]);
-    // const newBalance = parseFloat(balance) + parseFloat(creditAmount);
+    try {
+      const [accountToDebit, accountToCredit] = await Promise.all([
+        DB.findByAccountNumber(Account, accNum),
+        DB.findByAccountNumber(Account, recipient),
+      ]);
+      const transfer = await transaction.transfer(
+        accountToDebit,
+        accountToCredit,
+        amount
+      );
+      // console.log(transfer);
+      res.json(transfer);
+    } catch (error) {
+      if (error) res.status(500).json({ error: error });
+    }
   },
 };
