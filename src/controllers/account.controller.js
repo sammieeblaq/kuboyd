@@ -7,10 +7,12 @@ const DB = require("../utils/db.utils");
 module.exports = {
   createAccount: async (req, res) => {
     const { id, phone, email } = req.decoded;
-    // console.log(req.decoded);
+
+    // const existingUser = await Account.find({ email: email})
     const { accountName, type } = req.body;
     const accountNumber = acc.generateAccount();
     try {
+      j;
       const account = await Account.create({
         accountName: accountName,
         type: type,

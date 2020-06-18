@@ -11,7 +11,7 @@ module.exports = {
 
     const accountToCredit = await DB.findByAccountNumber(Account, accNum);
     let { accountName, balance } = accountToCredit;
-    const newBalance = parseFloat(balance) + parseFloat(creditAmount);
+    const newBalance = parseInt(balance) + parseInt(creditAmount);
     try {
       const newTransaction = await Transaction.create({
         type: "deposit",
@@ -26,7 +26,7 @@ module.exports = {
       const updatedAccount = await DB.updateAccount(
         Account,
         accNum,
-        newBalance
+        creditAmount
       );
       const data = {
         id: newTransaction._id,
@@ -34,13 +34,13 @@ module.exports = {
         amount: newTransaction.amount,
         receiver: newTransaction.receiver,
         transactionType: newTransaction.type,
-        oldBalance: newTransaction.oldBalance,
-        newBalance: newTransaction.newBalance,
+        oldBalance: parseFloat(newTransaction.oldBalance),
+        newBalance: parseFloat(newTransaction.newBalance),
         updatedAccount,
       };
       return res.json(data);
     } catch (error) {
-      throw new Error("not saved");
+      if (error) res.status(500).json({ error: error });
     }
   },
 
@@ -53,6 +53,5 @@ module.exports = {
       DB.findByAccountNumber(Account, recipientAcc),
     ]);
     // const newBalance = parseFloat(balance) + parseFloat(creditAmount);
-    const transfer = (accountToCredit, accountToDebit, amount) => {};
   },
 };
