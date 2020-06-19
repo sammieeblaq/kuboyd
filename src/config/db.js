@@ -7,7 +7,6 @@ const connectDb = () => {
       useUnifiedTopology: true,
       useCreateIndex: true,
       useFindAndModify: false,
-      // replicaSet: "rs",
     });
     console.log("connected to the database!!!");
   } catch (error) {

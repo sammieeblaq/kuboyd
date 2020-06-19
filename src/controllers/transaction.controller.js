@@ -45,6 +45,11 @@ module.exports = {
           message: "Transaction Successful, Thank you for using Kuboyd",
           data: data,
         });
+      } else {
+        return res.json({
+          message: "Transaction Failed, Try again later or contact Support",
+          status: 500,
+        });
       }
     } catch (error) {
       if (error) res.status(500).json({ error: error });
@@ -65,10 +70,21 @@ module.exports = {
         accountToCredit,
         amount
       );
+      const newTransaction = await Transaction.create({
+        type: "transfer",
+        accNumber: accNum,
+        sender: transfer.from,
+        receiver: transfer.to,
+        amount: amount,
+      });
       // console.log(transfer);
-      res.json(transfer);
+      res.json(newTransaction);
     } catch (error) {
       if (error) res.status(500).json({ error: error });
     }
+  },
+
+  getTransaction: (req, res) => {
+    const { accNum } = req.query;
   },
 };
