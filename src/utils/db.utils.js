@@ -10,16 +10,18 @@ module.exports = {
   },
 
   updateAccount: (model, accNumber, amount) => {
-    return model.updateOne(
+    return model.findOneAndUpdate(
       { accountNumber: accNumber },
-      { $inc: { balance: amount } }
+      { $inc: { balance: amount } },
+      { new: true }
     );
   },
 
   decrementAccount: (model, accNumber, amount) => {
-    return model.updateOne(
+    return model.findOneAndUpdate(
       { accountNumber: accNumber },
-      { $inc: { balance: -amount } }
+      { $inc: { balance: -amount } },
+      { new: true }
     );
   },
 

@@ -12,7 +12,6 @@ module.exports = {
     const { accountName, type } = req.body;
     const accountNumber = acc.generateAccount();
     try {
-      j;
       const account = await Account.create({
         accountName: accountName,
         type: type,
@@ -86,7 +85,7 @@ module.exports = {
         accountBalance: account.balance,
         created: formatDate(account.created_at),
       });
-      console.log(account.accountOwner);
+      // console.log(account.accountOwner);
     } catch (error) {
       console.error("Cannot get Account number.. Try again later");
     }

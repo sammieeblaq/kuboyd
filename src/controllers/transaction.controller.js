@@ -2,6 +2,7 @@ const Transaction = require("../models/transaction.models");
 const Account = require("../models/account.models");
 const DB = require("../utils/db.utils");
 const transaction = require("../services/transaction.services");
+const { update } = require("../models/account.models");
 
 module.exports = {
   creditAccount: async (req, res) => {
@@ -28,17 +29,23 @@ module.exports = {
         accNum,
         creditAmount
       );
-      const data = {
-        id: newTransaction._id,
-        accountNumber: accNum,
-        amount: newTransaction.amount,
-        receiver: newTransaction.receiver,
-        transactionType: newTransaction.type,
-        oldBalance: parseFloat(newTransaction.oldBalance),
-        newBalance: parseFloat(newTransaction.newBalance),
-        updatedAccount,
-      };
-      return res.json(data);
+
+      if (updatedAccount) {
+        const data = {
+          id: newTransaction._id,
+          accountNumber: accNum,
+          amount: newTransaction.amount,
+          receiver: newTransaction.receiver,
+          transactionType: newTransaction.type,
+          oldBalance: parseFloat(newTransaction.oldBalance),
+          newBalance: parseFloat(newTransaction.newBalance),
+          // updatedBalance: updatedAccount.balance,
+        };
+        return res.json({
+          message: "Transaction Successful, Thank you for using Kuboyd",
+          data: data,
+        });
+      }
     } catch (error) {
       if (error) res.status(500).json({ error: error });
     }
