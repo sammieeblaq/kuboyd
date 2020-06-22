@@ -10,7 +10,7 @@ const AccountSchema = new Schema(
     accountOwner: { type: Object },
     type: { type: String },
     balance: { type: Number, default: 0.0 },
-    status: { type: String, default: "active" },
+    status: { type: String, default: "active", enum: ["active", "inactive"] },
   },
   { timestamps: { createdAt: "created_at" } }
 );

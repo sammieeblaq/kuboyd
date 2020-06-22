@@ -77,14 +77,13 @@ module.exports = {
         receiver: transfer.to,
         amount: amount,
       });
-      // console.log(transfer);
       res.json(newTransaction);
     } catch (error) {
       if (error) res.status(500).json({ error: error });
     }
   },
 
-  getTransaction: (req, res) => {
-    const { accNum } = req.query;
-  },
+  // getTransaction: (req, res) => {
+  //   const { accNum } = req.query;
+  // },
 };
