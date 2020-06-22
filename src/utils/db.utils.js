@@ -1,5 +1,4 @@
-const { model } = require("../models/account.models");
-
+// Database uitlities
 module.exports = {
   find: (model) => {
     return model.find({}).sort({ created: -1 });
@@ -9,7 +8,27 @@ module.exports = {
     return model.findOne({ _id: id });
   },
 
-  updateAccount: (model, accNumber, amount) => {
+  findByEmail: (model, email) => {
+    return model.findOne({ email: email });
+  },
+
+  updateAccount: (model, accNum, req) => {
+    return model.findOneAndUpdate(
+      { accountNumber: accNum },
+      { $set: req.body },
+      { new: true }
+    );
+  },
+
+  updateUser: (model, id, req) => {
+    return model.findOneAndUpdate(
+      { _id: id },
+      { $set: req.body },
+      { new: true }
+    );
+  },
+
+  incrementAccount: (model, accNumber, amount) => {
     return model.findOneAndUpdate(
       { accountNumber: accNumber },
       { $inc: { balance: amount } },
@@ -25,8 +44,8 @@ module.exports = {
     );
   },
 
-  deleteOne: (model, accNumber) => {
-    return model.deleteOne({ accountNumber: accNumber });
+  deleteOne: (model, id) => {
+    return model.findOneAndDelete({ _id: id });
   },
 
   findByAccountNumber: (model, accNumber) => {

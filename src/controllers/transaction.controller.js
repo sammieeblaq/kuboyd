@@ -105,4 +105,19 @@ module.exports = {
         });
     }
   },
+
+  removeTransaction: async (req, res) => {
+    const { id } = req.query;
+    try {
+      const transaction = await DB.deleteOne(Transaction, id);
+      res.json({
+        message: "Transaction deleted from Account",
+        deleted: transaction,
+      });
+    } catch (error) {
+      console.error(
+        "Unable to delete account.. Try again later or contact support"
+      );
+    }
+  },
 };

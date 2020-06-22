@@ -1,6 +1,6 @@
 const Account = require("../models/account.models");
 const acc = require("../services/account.services");
-const { formatDate } = require("../utils/time.utils");
+const { formatDate } = require("../utils/gen.utils");
 const DB = require("../utils/db.utils");
 // const validator = require("../utils/validator.utils");
 
@@ -97,9 +97,10 @@ module.exports = {
   updateAccount: async (req, res) => {
     const { accNum } = req.query;
     try {
-      await DB.updateAccount(Account, accNum, req);
+      const account = await DB.updateAccount(Account, accNum, req);
       res.json({
-        message: "Account Updated",
+        updated: account,
+        message: "Account Updated Successfully",
       });
     } catch (error) {
       console.error("Cannot update account");
@@ -107,9 +108,9 @@ module.exports = {
   },
 
   removeAccount: async (req, res) => {
-    const { accNumber } = req.query;
+    const { id } = req.query;
     try {
-      await DB.deleteOne(Account, accNumber);
+      await DB.deleteOne(Account, id);
       res.json({ message: "Account Deleted" });
     } catch (error) {
       console.error(

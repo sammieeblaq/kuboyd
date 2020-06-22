@@ -1,20 +1,23 @@
 const User = require("../models/user.models");
 const encryption = require("../middleware/encryption");
+const DB = require("../utils/db.utils");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
   signUp: async (req, res) => {
     const { password, email, phone } = req.body;
-    const hashedPassword = await encryption.encryptPassword(password);
-    const userObj = {
-      phone: phone,
-      email: email,
-      password: hashedPassword,
-    };
-    const user = new User(userObj);
     try {
-      await user.save();
-      return res.json("User Created Successfully");
+      const hashedPassword = await encryption.encryptPassword(password);
+      const userObj = {
+        phone: phone,
+        email: email,
+        password: hashedPassword,
+      };
+      const user = User.create(userObj);
+      return res.json({
+        user: user,
+        message: "User Created Successfully",
+      });
     } catch (error) {
       res.status(500).json({ error: error });
     }
@@ -22,7 +25,7 @@ module.exports = {
 
   signIn: async (req, res) => {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await DB.findByEmail(User, email);
     if (!user) {
       return res.status(401).json({
         message: "User does not exist!!! Please sign up",
