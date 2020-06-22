@@ -83,7 +83,27 @@ module.exports = {
     }
   },
 
-  // getTransaction: (req, res) => {
-  //   const { accNum } = req.query;
-  // },
+  getTransactions: async (req, res) => {
+    // const { id } = req.query;
+    try {
+      const transactions = await DB.find(Transaction);
+      res.json(transactions);
+    } catch (error) {
+      console.error("Cannot get the transactions.. Kindly contact support");
+    }
+  },
+
+  getTransactionById: async (req, res) => {
+    const { id } = req.query;
+    try {
+      const transaction = await DB.findById(Transaction, id);
+      res.json(transaction);
+    } catch (error) {
+      if (error)
+        res.status(500).json({
+          message:
+            "Cannot get Id of the given transaction.. Kindly contact support.",
+        });
+    }
+  },
 };
