@@ -32,4 +32,11 @@ module.exports = {
   findByAccountNumber: (model, accNumber) => {
     return model.findOne({ accountNumber: accNumber });
   },
+
+  addBeneficiary: (model, accNumber, recipient) => {
+    return model.findOneAndUpdate(
+      { accountNumber: accNumber },
+      { $push: { beneficiary: recipient } }
+    );
+  },
 };

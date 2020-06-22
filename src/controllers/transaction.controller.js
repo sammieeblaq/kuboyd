@@ -2,7 +2,6 @@ const Transaction = require("../models/transaction.models");
 const Account = require("../models/account.models");
 const DB = require("../utils/db.utils");
 const transaction = require("../services/transaction.services");
-const { update } = require("../models/account.models");
 
 module.exports = {
   creditAccount: async (req, res) => {
@@ -70,6 +69,7 @@ module.exports = {
         accountToCredit,
         amount
       );
+      await DB.addBeneficiary(Account, accNum, recipient);
       const newTransaction = await Transaction.create({
         type: "transfer",
         accNumber: accNum,
@@ -84,7 +84,6 @@ module.exports = {
   },
 
   getTransactions: async (req, res) => {
-    // const { id } = req.query;
     try {
       const transactions = await DB.find(Transaction);
       res.json(transactions);

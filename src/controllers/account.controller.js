@@ -38,6 +38,7 @@ module.exports = {
             accountNumber: acc.accountNumber,
             accountType: acc.type,
             status: acc.status,
+            beneficiary: acc.beneficiary,
             accountBalance: acc.balance,
             created: formatDate(acc.created_at),
           };
@@ -60,6 +61,7 @@ module.exports = {
         accountNumber: account.accountNumber,
         accountType: account.type,
         status: account.status,
+        beneficiary: acc.beneficiary,
         accountBalance: account.balance,
         created: formatDate(account.created_at),
       });
@@ -82,6 +84,7 @@ module.exports = {
         accountOnwer: account.accountOwner,
         accountType: account.type,
         status: account.status,
+        beneficiary: acc.beneficiary,
         accountBalance: account.balance,
         created: formatDate(account.created_at),
       });

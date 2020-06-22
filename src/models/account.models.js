@@ -9,6 +9,7 @@ const AccountSchema = new Schema(
     accountNumber: { type: Number, unique: true },
     accountOwner: { type: Object },
     type: { type: String },
+    beneficiary: { type: Array },
     balance: { type: Number, default: 0.0 },
     status: { type: String, default: "active", enum: ["active", "inactive"] },
   },
