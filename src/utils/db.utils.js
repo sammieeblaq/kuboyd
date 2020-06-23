@@ -12,6 +12,10 @@ module.exports = {
     return model.findOne({ email: email });
   },
 
+  findStaffs: (model, role) => {
+    return model.find({ role: role }).sort({ created_at: -1 });
+  },
+
   updateAccount: (model, accNum, req) => {
     return model.findOneAndUpdate(
       { accountNumber: accNum },

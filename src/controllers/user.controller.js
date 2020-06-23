@@ -33,4 +33,14 @@ module.exports = {
       throw Error("Uncaught Error");
     }
   },
+
+  getStaffs: async (req, res) => {
+    const { role } = req.query;
+    try {
+      const staffs = await DB.findStaffs(User, role);
+      if (staffs) res.json({ staffs });
+    } catch (error) {
+      throw new Error("Unknown Error");
+    }
+  },
 };

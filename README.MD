@@ -7,4 +7,3 @@ Instruction for use
 1. clone the repo
 2. npm install (Will install all the necessary applications)
 3. npm run dev.
-4.

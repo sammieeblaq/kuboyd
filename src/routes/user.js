@@ -3,6 +3,7 @@ const user = require("../controllers/user.controller");
 
 router.get("/users", user.getUsers);
 router.get("/user", user.getUser);
-router.post("/create-staff", user.createStaff);
+
+router.route("/staff").post(user.createStaff).get(user.getStaffs);
 
 module.exports = router;
