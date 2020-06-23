@@ -18,8 +18,8 @@ module.exports = {
         accountNumber: accNum,
         receiver: accountToCredit.accountOwner,
         sender: accountName,
-        amount: parseFloat(creditAmount),
-        oldBalance: parseFloat(balance),
+        amount: creditAmount,
+        oldBalance: balance,
         newBalance: newBalance,
       });
 

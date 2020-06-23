@@ -8,7 +8,7 @@ const connectDb = () => {
       useCreateIndex: true,
       useFindAndModify: false,
     });
-    console.log("connected to the database!!!");
+    console.info("connected to the database!!!");
   } catch (error) {
     throw error;
   }
