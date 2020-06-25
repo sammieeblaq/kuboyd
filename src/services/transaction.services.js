@@ -5,7 +5,7 @@ module.exports = {
   transfer: async (sender, receiver, amount) => {
     const [from, to] = await Promise.all([
       DB.decrementAccount(Account, sender.accountNumber, amount),
-      DB.updateAccount(Account, receiver.accountNumber, amount),
+      DB.incrementAccount(Account, receiver.accountNumber, amount),
     ]);
     return { from, to };
   },

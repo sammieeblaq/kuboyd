@@ -40,7 +40,19 @@ module.exports = {
       const staffs = await DB.findStaffs(User, role);
       if (staffs) res.json({ staffs });
     } catch (error) {
-      throw new Error("Unknown Error");
+      throw new Error("Unable to get the staffs with tht role");
     }
+  },
+
+  deleteUser: async (req, res) => {
+    const { id } = req.query;
+    try {
+      const deletedUser = await DB.deleteOne(User, id);
+      res.json({
+        message: "User Deleted Successfully",
+        user: deletedUser,
+      });
+    } catch (error) {}
+    throw new Error("Unable to delete user with that Id");
   },
 };

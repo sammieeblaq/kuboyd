@@ -12,6 +12,10 @@ module.exports = {
     return model.findOne({ email: email });
   },
 
+  findByAccountNumber: (model, accNumber) => {
+    return model.findOne({ accountNumber: accNumber });
+  },
+
   findStaffs: (model, role) => {
     return model.find({ role: role }).sort({ created_at: -1 });
   },
@@ -50,10 +54,6 @@ module.exports = {
 
   deleteOne: (model, id) => {
     return model.findOneAndDelete({ _id: id });
-  },
-
-  findByAccountNumber: (model, accNumber) => {
-    return model.findOne({ accountNumber: accNumber });
   },
 
   addBeneficiary: (model, accNumber, recipient) => {

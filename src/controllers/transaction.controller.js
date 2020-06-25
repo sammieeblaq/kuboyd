@@ -23,10 +23,60 @@ module.exports = {
         newBalance: newBalance,
       });
 
-      const updatedAccount = await DB.updateAccount(
+      const updatedAccount = await DB.incrementAccount(
         Account,
         accNum,
         creditAmount
+      );
+
+      if (updatedAccount) {
+        const data = {
+          id: newTransaction._id,
+          accountNumber: accNum,
+          amount: newTransaction.amount,
+          receiver: newTransaction.receiver,
+          transactionType: newTransaction.type,
+          oldBalance: parseFloat(newTransaction.oldBalance),
+          newBalance: parseFloat(newTransaction.newBalance),
+          // updatedBalance: updatedAccount.balance,
+        };
+        return res.json({
+          message: "Transaction Successful, Thank you for using Kuboyd",
+          data: data,
+        });
+      } else {
+        return res.json({
+          message: "Transaction Failed, Try again later or contact Support",
+          status: 500,
+        });
+      }
+    } catch (error) {
+      if (error) res.status(500).json({ error: error });
+    }
+  },
+
+  debitAccount: async (req, res) => {
+    const { accNum } = req.query;
+    const { debitAmount } = req.body;
+
+    const accountToDebit = await DB.findByAccountNumber(Account, accNum);
+    let { accountName, balance } = accountToDebit;
+    const newBalance = parseInt(balance) - parseInt(debitAmount);
+    try {
+      const newTransaction = await Transaction.create({
+        type: "withdrawal",
+        accountNumber: accNum,
+        receiver: accountToCredit.accountOwner,
+        sender: accountName,
+        amount: debitAmount,
+        oldBalance: balance,
+        newBalance: newBalance,
+      });
+
+      const updatedAccount = await DB.decrementAccount(
+        Account,
+        accNum,
+        debitAmount
       );
 
       if (updatedAccount) {
