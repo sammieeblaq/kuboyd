@@ -5,5 +5,5 @@ The API describes a small scale digital bank/wallet application in which users c
 Instruction for use
 
 1. clone the repo
-2. npm install (Will install all the necessary applications)
+2. npm install (Will install all the necessary dependencies)
 3. npm run dev.
