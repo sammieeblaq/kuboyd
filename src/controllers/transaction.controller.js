@@ -9,54 +9,62 @@ module.exports = {
     const { accNum } = req.query;
     const { creditAmount } = req.body;
 
-    const accountToCredit = await DB.findByAccountNumber(Account, accNum);
-    let { accountName, balance } = accountToCredit;
-    const newBalance = parseInt(balance) + parseInt(creditAmount);
-    try {
-      const newTransaction = await Transaction.create({
-        type: "deposit",
-        accountNumber: accNum,
-        receiver: accountToCredit.accountOwner,
-        sender: accountName,
-        amount: creditAmount,
-        oldBalance: balance,
-        newBalance: newBalance,
-      });
-
-      const updatedAccount = await DB.incrementAccount(
-        Account,
-        accNum,
-        creditAmount
-      );
-
-      if (updatedAccount) {
-        const data = {
-          id: newTransaction._id,
+    const validNumber = await DB.findByAccountNumber(Account, accNum);
+    if (validNumber) {
+      const accountToCredit = await DB.findByAccountNumber(Account, accNum);
+      let { accountName, balance } = accountToCredit;
+      const newBalance = parseInt(balance) + parseInt(creditAmount);
+      try {
+        const newTransaction = await Transaction.create({
+          type: "deposit",
           accountNumber: accNum,
-          amount: newTransaction.amount,
-          receiver: newTransaction.receiver,
-          transactionType: newTransaction.type,
-          oldBalance: parseFloat(newTransaction.oldBalance),
-          newBalance: parseFloat(newTransaction.newBalance),
-          // updatedBalance: updatedAccount.balance,
-        };
-        await DB.updateTransactionStatus(
-          Transaction,
-          newTransaction._id,
-          "successful"
+          receiver: accountToCredit.accountOwner,
+          sender: accountName,
+          amount: creditAmount,
+          oldBalance: balance,
+          newBalance: newBalance,
+        });
+
+        const updatedAccount = await DB.incrementAccount(
+          Account,
+          accNum,
+          creditAmount
         );
-        return res.json({
-          message: "Transaction Successful, Thank you for using Kuboyd",
-          data: data,
-        });
-      } else {
-        return res.json({
-          message: "Transaction Failed, Try again later or contact Support",
-          status: 500,
-        });
+
+        if (updatedAccount) {
+          const newStatus = await DB.updateTransactionStatus(
+            Transaction,
+            newTransaction._id,
+            "successful"
+          );
+          const data = {
+            id: newTransaction._id,
+            accountNumber: accNum,
+            status: newStatus.status,
+            amount: newTransaction.amount,
+            receiver: newTransaction.receiver,
+            transactionType: newTransaction.type,
+            oldBalance: parseFloat(newTransaction.oldBalance),
+            newBalance: parseFloat(newTransaction.newBalance),
+            // updatedBalance: updatedAccount.balance,
+          };
+          return res.json({
+            message: "Transaction Successful, Thank you for using Kuboyd",
+            data: data,
+          });
+        } else {
+          return res.json({
+            message: "Transaction Failed, Try again later or contact Support",
+            status: 500,
+          });
+        }
+      } catch (error) {
+        if (error) res.status(500).json({ error: error });
       }
-    } catch (error) {
-      if (error) res.status(500).json({ error: error });
+    } else {
+      res.status(400).json({
+        message: "Invalid account Number",
+      });
     }
   },
 
