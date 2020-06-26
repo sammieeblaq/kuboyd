@@ -28,6 +28,14 @@ module.exports = {
     );
   },
 
+  updateTransactionStatus: (model, id, status) => {
+    return model.findOneAndUpdate(
+      { _id: id },
+      { $set: { status: status } },
+      { new: true }
+    );
+  },
+
   updateUser: (model, id, req) => {
     return model.findOneAndUpdate(
       { _id: id },

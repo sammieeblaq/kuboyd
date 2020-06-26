@@ -7,7 +7,8 @@ const TransactionSchema = new Schema({
   amount: { type: Number },
   status: {
     type: String,
-    enum: ["successful", "failed", "pending", "reversed"],
+    default: "pending",
+    enum: ["successful", "failed", "pending", "reversed", "cancelled"],
   },
   type: { type: String, required: true },
   sender: { type: Object },

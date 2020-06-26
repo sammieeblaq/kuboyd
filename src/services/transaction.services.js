@@ -1,5 +1,6 @@
 const DB = require("../utils/db.utils");
 const Account = require("../models/account.models");
+const Transacton = require("../models/transaction.models");
 
 module.exports = {
   transfer: async (sender, receiver, amount) => {
@@ -11,5 +12,8 @@ module.exports = {
   },
 
   rollBack: async (sender, receiver, amount, id) => {},
-  cancel: async (id) => {},
+  cancel: async (id) => {
+    const canceled = await DB.cancelTransaction(Transacton, id);
+    return canceled;
+  },
 };

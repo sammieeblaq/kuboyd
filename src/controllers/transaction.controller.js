@@ -40,6 +40,11 @@ module.exports = {
           newBalance: parseFloat(newTransaction.newBalance),
           // updatedBalance: updatedAccount.balance,
         };
+        await DB.updateTransactionStatus(
+          Transaction,
+          newTransaction._id,
+          "successful"
+        );
         return res.json({
           message: "Transaction Successful, Thank you for using Kuboyd",
           data: data,

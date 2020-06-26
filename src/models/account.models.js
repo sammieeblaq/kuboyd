@@ -7,6 +7,7 @@ const AccountSchema = new Schema(
     uuid: { type: String, default: v4 },
     accountName: { type: String, trim: true },
     accountNumber: { type: Number, unique: true },
+    bvn: { type: Number, max: 15 },
     accountOwner: { type: Object },
     type: { type: String },
     beneficiary: { type: Array },
