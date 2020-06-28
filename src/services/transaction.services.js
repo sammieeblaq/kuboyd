@@ -11,7 +11,7 @@ module.exports = {
     return { from, to };
   },
 
-  rollBack: async (sender, receiver, amount, id) => {},
+  // rollBack: async (sender, receiver, amount, id) => {},
   // cancel: async (id) => {
   //   const canceled = await DB.cancelTransaction(Transacton, id);
   //   return canceled;

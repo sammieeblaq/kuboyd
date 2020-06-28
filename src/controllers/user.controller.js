@@ -24,7 +24,7 @@ module.exports = {
   createStaff: async (req, res) => {
     const { id } = req.query;
     try {
-      const staff = await DB.updateUser(User, id, req);
+      const staff = await DB.updateUser(User, id, role);
       res.json({
         updated: staff,
         message: "Staff Created Successfully",

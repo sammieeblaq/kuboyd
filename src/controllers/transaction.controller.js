@@ -6,8 +6,7 @@ const transaction = require("../services/transaction.services");
 module.exports = {
   creditAccount: async (req, res) => {
     // Crediting account can also be known as depositing into your account
-    const { accNum } = req.query;
-    const { creditAmount } = req.body;
+    const { accNum, creditAmount } = req.body;
 
     const validNumber = await DB.findByAccountNumber(Account, accNum);
     if (validNumber) {
@@ -52,14 +51,13 @@ module.exports = {
             message: "Transaction Successful, Thank you for using Kuboyd",
             data: data,
           });
-        } else {
-          return res.json({
+        }
+      } catch (error) {
+        if (error)
+          res.status(500).json({
             message: "Transaction Failed, Try again later or contact Support",
             status: 500,
           });
-        }
-      } catch (error) {
-        if (error) res.status(500).json({ error: error });
       }
     } else {
       res.status(400).json({
@@ -107,24 +105,24 @@ module.exports = {
           message: "Transaction Successful, Thank you for using Kuboyd",
           data: data,
         });
-      } else {
-        return res.json({
+      }
+    } catch (error) {
+      if (error)
+        res.status(500).json({
           message: "Transaction Failed, Try again later or contact Support",
           status: 500,
         });
-      }
-    } catch (error) {
-      if (error) res.status(500).json({ error: error });
     }
   },
 
   transferToAccount: async (req, res) => {
-    const { accNum } = req.query;
+    const { phone } = req.decoded;
     const { amount, recipient } = req.body;
 
+    const { accountNumber } = await DB.findAccountByPhone(Account, phone);
     try {
       const [accountToDebit, accountToCredit] = await Promise.all([
-        DB.findByAccountNumber(Account, accNum),
+        DB.findByAccountNumber(Account, accountNumber),
         DB.findByAccountNumber(Account, recipient),
       ]);
       const transfer = await transaction.transfer(
@@ -132,10 +130,14 @@ module.exports = {
         accountToCredit,
         amount
       );
-      await DB.addBeneficiary(Account, accNum, recipient);
+      if (accountToDebit.beneficiary.includes(recipient)) {
+        !DB.addBeneficiary(Account, accountNumber, recipient);
+      } else {
+        await DB.addBeneficiary(Account, accountNumber, recipient);
+      }
       const newTransaction = await Transaction.create({
         type: "transfer",
-        accNumber: accNum,
+        accNumber: accountNumber,
         sender: transfer.from,
         receiver: transfer.to,
         amount: amount,

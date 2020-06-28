@@ -9,14 +9,16 @@ module.exports = {
     const { id, phone, email } = req.decoded;
 
     // const existingUser = await Account.find({ email: email})
-    const { accountName, type } = req.body;
+    const { accountName, type, bvn } = req.body;
     const accountNumber = acc.generateAccount();
     try {
       const account = await Account.create({
         accountName: accountName,
         type: type,
         accountNumber: accountNumber,
-        accountOwner: { id, phone, email },
+        bvn: bvn,
+        accountOwner: { id, email },
+        phone: phone,
       });
       res.json(account);
     } catch (error) {
@@ -76,18 +78,26 @@ module.exports = {
     const { accNumber } = req.query;
     try {
       const account = await DB.findByAccountNumber(Account, accNumber);
-      res.json({
-        _id: account._id,
-        uuid: account.uuid,
-        accountName: account.accountName,
-        accountNumber: account.accountNumber,
-        accountOnwer: account.accountOwner,
-        accountType: account.type,
-        status: account.status,
-        beneficiary: acc.beneficiary,
-        accountBalance: account.balance,
-        created: formatDate(account.created_at),
-      });
+      if (account) {
+        res.json({
+          _id: account._id,
+          uuid: account.uuid,
+          accountName: account.accountName,
+          accountNumber: account.accountNumber,
+          accountOnwer: account.accountOwner,
+          accountType: account.type,
+          status: account.status,
+          beneficiary: acc.beneficiary,
+          accountBalance: account.balance,
+          created: formatDate(account.created_at),
+        });
+      } else {
+        res.status(401).json({
+          message:
+            "This account does not exist. Check and reconfirm the number",
+        });
+      }
+
       // console.log(account.accountOwner);
     } catch (error) {
       console.error("Cannot get Account number.. Try again later");

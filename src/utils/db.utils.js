@@ -12,6 +12,10 @@ module.exports = {
     return model.findOne({ email: email });
   },
 
+  findAccountByPhone: (model, phone) => {
+    return model.findOne({ phone: phone });
+  },
+
   findByAccountNumber: (model, accNumber) => {
     return model.findOne({ accountNumber: accNumber });
   },
@@ -36,10 +40,10 @@ module.exports = {
     );
   },
 
-  updateUser: (model, id, req) => {
+  updateUser: (model, id, role) => {
     return model.findOneAndUpdate(
       { _id: id },
-      { $set: req.body },
+      { $set: { role: role } },
       { new: true }
     );
   },
