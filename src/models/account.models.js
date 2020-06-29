@@ -14,6 +14,7 @@ const AccountSchema = new Schema(
     beneficiary: { type: Array },
     balance: { type: Number, default: 0.0 },
     status: { type: String, default: "active", enum: ["active", "inactive"] },
+    transactionHistory: { type: Array },
   },
   { timestamps: { createdAt: "created_at" } }
 );

@@ -97,9 +97,8 @@ module.exports = {
           amount: newTransaction.amount,
           receiver: newTransaction.receiver,
           transactionType: newTransaction.type,
-          oldBalance: parseFloat(newTransaction.oldBalance),
-          newBalance: parseFloat(newTransaction.newBalance),
-          // updatedBalance: updatedAccount.balance,
+          oldBalance: newTransaction.oldBalance,
+          newBalance: newTransaction.newBalance,
         };
         return res.json({
           message: "Transaction Successful, Thank you for using Kuboyd",
@@ -133,7 +132,7 @@ module.exports = {
       if (accountToDebit.beneficiary.includes(recipient)) {
         !DB.addBeneficiary(Account, accountNumber, recipient);
       } else {
-        await DB.addBeneficiary(Account, accountNumber, recipient);
+        DB.addBeneficiary(Account, accountNumber, recipient);
       }
       const newTransaction = await Transaction.create({
         type: "transfer",
