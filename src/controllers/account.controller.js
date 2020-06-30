@@ -42,6 +42,7 @@ module.exports = {
             status: acc.status,
             beneficiary: acc.beneficiary,
             accountBalance: acc.balance,
+            transactionHistory: acc.transactionHistory,
             created: formatDate(acc.created_at),
           };
         })

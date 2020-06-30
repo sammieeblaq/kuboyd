@@ -124,24 +124,36 @@ module.exports = {
         DB.findByAccountNumber(Account, accountNumber),
         DB.findByAccountNumber(Account, recipient),
       ]);
-      const transfer = await transaction.transfer(
-        accountToDebit,
-        accountToCredit,
-        amount
-      );
-      if (accountToDebit.beneficiary.includes(recipient)) {
-        !DB.addBeneficiary(Account, accountNumber, recipient);
+      if (accountToDebit.balance <= 0) {
+        res.json({
+          status: 400,
+          message: "Insufficient Balance",
+        });
       } else {
-        DB.addBeneficiary(Account, accountNumber, recipient);
+        const transfer = await transaction.transfer(
+          accountToDebit,
+          accountToCredit,
+          amount
+        );
+        if (accountToDebit.beneficiary.includes(recipient)) {
+          !DB.addBeneficiary(Account, accountNumber, recipient);
+        } else {
+          DB.addBeneficiary(Account, accountNumber, recipient);
+        }
+        const newTransaction = await Transaction.create({
+          type: "transfer",
+          accNumber: accountNumber,
+          sender: transfer.from,
+          receiver: transfer.to,
+          amount: amount,
+        });
+        await DB.addTransactionHistory(
+          Account,
+          accountNumber,
+          newTransaction.receiver
+        );
+        res.json(newTransaction);
       }
-      const newTransaction = await Transaction.create({
-        type: "transfer",
-        accNumber: accountNumber,
-        sender: transfer.from,
-        receiver: transfer.to,
-        amount: amount,
-      });
-      res.json(newTransaction);
     } catch (error) {
       if (error) res.status(500).json({ error: error });
     }

@@ -74,4 +74,11 @@ module.exports = {
       { $push: { beneficiary: recipient } }
     );
   },
+
+  addTransactionHistory: (model, accNumber, transaction) => {
+    return model.findOneAndUpdate(
+      { accountNumber: accNumber },
+      { $push: { transactionHistory: transaction } }
+    );
+  },
 };
