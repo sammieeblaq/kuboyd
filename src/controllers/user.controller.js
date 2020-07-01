@@ -23,6 +23,7 @@ module.exports = {
 
   createStaff: async (req, res) => {
     const { id } = req.query;
+    const { role } = req.body;
     try {
       const staff = await DB.updateUser(User, id, role);
       res.json({

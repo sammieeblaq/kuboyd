@@ -2,11 +2,12 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const { v1 } = require("uuid");
 
-const TransactionSchema = new Schema({
+const transactionSchema = new Schema({
   uuid: { type: String, default: v1 },
   amount: { type: Number },
   status: {
     type: String,
+    default: "successful",
     enum: ["successful", "failed", "pending", "reversed", "cancelled"],
   },
   type: { type: String, required: true },
@@ -17,4 +18,4 @@ const TransactionSchema = new Schema({
   newBalance: { type: Number },
 });
 
-module.exports = mongoose.model("Transaction", TransactionSchema);
+module.exports = mongoose.model("Transaction", transactionSchema);

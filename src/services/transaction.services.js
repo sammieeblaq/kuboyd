@@ -11,9 +11,11 @@ module.exports = {
     return { from, to };
   },
 
-  // rollBack: async (sender, receiver, amount, id) => {},
-  // cancel: async (id) => {
-  //   const canceled = await DB.cancelTransaction(Transacton, id);
-  //   return canceled;
-  // },
+  savings: async (accountNumer, amount) => {
+    const result = await Promise.all([
+      DB.decrementAccount(Account, accountNumer, amount),
+      DB.incrementAccountSaving(Account, accountNumer, amount),
+    ]);
+    return result;
+  },
 };
