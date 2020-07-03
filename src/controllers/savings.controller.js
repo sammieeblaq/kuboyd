@@ -30,7 +30,10 @@ module.exports = {
         res.json(newSaving);
       }
     } catch (error) {
-      throw error;
+      if (error)
+        res.status(500).json({
+          message: "Saving Failed. Try again later or contact support",
+        });
     }
   },
 };

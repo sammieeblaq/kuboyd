@@ -21,7 +21,7 @@ module.exports = {
         };
         const user = User.create(userObj);
         return res.json({
-          user: user,
+          // user: user,
           message: "User Created Successfully",
         });
       } catch (error) {
