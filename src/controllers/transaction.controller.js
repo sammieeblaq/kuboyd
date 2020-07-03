@@ -124,7 +124,7 @@ module.exports = {
         DB.findByAccountNumber(Account, accountNumber),
         DB.findByAccountNumber(Account, recipient),
       ]);
-      if (accountToDebit.balance <= 0) {
+      if (accountToDebit.balance >= 0) {
         res.json({
           status: 400,
           message: "Insufficient Balance",

@@ -8,18 +8,27 @@ module.exports = {
     const { phone } = req.decoded;
     const { amount } = req.body;
 
-    const { accountNumber } = await DB.findAccountByPhone(Account, phone);
+    const { accountNumber, balance } = await DB.findAccountByPhone(
+      Account,
+      phone
+    );
+    console.log(balance);
     try {
-      const savings = await transaction.savings(accountNumber, amount);
-      //   console.log(savings);
-      const newSaving = await Savings.create({
-        amount: amount,
-        balance: savings[0].balance,
-        subAccount: savings[1].subAccount,
-      });
-      //   console.log(saving);
-      await DB.addSavingHistory(Account, accountNumber, newSaving);
-      res.json(newSaving);
+      if (balance >= 0) {
+        res.json({
+          status: 400,
+          message: "Insufficient Balance",
+        });
+      } else {
+        const savings = await transaction.savings(accountNumber, amount);
+        const newSaving = await Savings.create({
+          amount: amount,
+          balance: savings[0].balance,
+          subAccount: savings[1].subAccount,
+        });
+        await DB.addSavingHistory(Account, accountNumber, newSaving);
+        res.json(newSaving);
+      }
     } catch (error) {
       throw error;
     }

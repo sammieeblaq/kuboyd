@@ -43,6 +43,8 @@ module.exports = {
             beneficiary: acc.beneficiary,
             accountBalance: acc.balance,
             transactionHistory: acc.transactionHistory,
+            savingsHistory: acc.savingsHistory,
+            subAccount: acc.subAccount,
             created: formatDate(acc.created_at),
           };
         })
@@ -64,8 +66,10 @@ module.exports = {
         accountNumber: account.accountNumber,
         accountType: account.type,
         status: account.status,
-        beneficiary: acc.beneficiary,
+        beneficiary: account.beneficiary,
         accountBalance: account.balance,
+        savingsHistory: account.savingsHistory,
+        transactionHistory: account.transactionHistory,
         created: formatDate(account.created_at),
       });
     } catch (error) {
@@ -88,7 +92,9 @@ module.exports = {
           accountOnwer: account.accountOwner,
           accountType: account.type,
           status: account.status,
-          beneficiary: acc.beneficiary,
+          beneficiary: account.beneficiary,
+          savingsHistory: account.savingsHistory,
+          transactionHistory: account.transactionHistory,
           accountBalance: account.balance,
           created: formatDate(account.created_at),
         });
