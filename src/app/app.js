@@ -6,7 +6,6 @@ const helmet = require("helmet");
 const mongoose = require("mongoose");
 const compression = require("compression");
 const session = require("express-session");
-require("dotenv").config();
 
 const routes = require("../routes");
 
