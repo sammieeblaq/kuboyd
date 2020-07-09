@@ -28,8 +28,8 @@
     "dotenv": "^8.2.0"
   },
   "scripts": {
-    "dev": "nodemon index",
-    "start": "node index"
+    "start": "node index.js",
+    "dev": "nodemon index"
   },
   "engines": {
     "node": "13.12.0"
