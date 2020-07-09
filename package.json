@@ -2,7 +2,6 @@
   "name": "kuboyd",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "bcrypt": "^4.0.1",
