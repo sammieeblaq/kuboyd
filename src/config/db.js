@@ -10,7 +10,7 @@ const connectDb = () => {
     });
     console.info("connected to the database!!!");
   } catch (error) {
-    if (error) throw Error("An error occured here");
+    throw Error("An error occured here");
   }
 };
 
