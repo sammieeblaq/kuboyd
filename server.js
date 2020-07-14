@@ -1,4 +1,4 @@
-const connectDb = require("./src/config/db");
+const connectDb = require("./config/db");
 // const app = require("./src/app/app");
 require("dotenv").config();
 const express = require("express");
@@ -10,7 +10,7 @@ const helmet = require("helmet");
 const compression = require("compression");
 // const session = require("express-session");
 
-const routes = require("../routes");
+const routes = require("./routes");
 
 app.use(logger("dev"));
 app.use(helmet());
