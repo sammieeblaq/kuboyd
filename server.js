@@ -19,10 +19,10 @@ app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/", routes);
-
 // Main function to connect to the database
 connectDb();
+app.use("/", routes);
+
 app.get("/", (req, res) =>
   res.status(200).json({ message: "KUBOYD APP successful" })
 );
