@@ -9,6 +9,7 @@ const helmet = require("helmet");
 // const mongoose = require("mongoose");
 const compression = require("compression");
 // const session = require("express-session");
+connectDb();
 
 const routes = require("./routes");
 
@@ -20,7 +21,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Main function to connect to the database
-connectDb();
 app.use("/", routes);
 
 app.get("/", (req, res) =>
