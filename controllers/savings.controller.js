@@ -5,16 +5,16 @@ const DB = require("../utils/db.utils");
 
 module.exports = {
   save: async (req, res) => {
-    const { phone } = req.decoded;
-    const { amount } = req.body;
+    // const { phone } = req.decoded;
+    const { amount, phone } = req.body;
 
     const { accountNumber, balance } = await DB.findAccountByPhone(
       Account,
       phone
     );
-    console.log(balance);
+    // console.log(balance);
     try {
-      if (balance >= 0) {
+      if (balance >= 0 && balance <= 50) {
         res.json({
           status: 400,
           message: "Insufficient Balance",
