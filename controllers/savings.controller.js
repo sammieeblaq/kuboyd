@@ -5,8 +5,8 @@ const DB = require("../utils/db.utils");
 
 module.exports = {
   save: async (req, res) => {
-    // const { phone } = req.decoded;
-    const { amount, phone } = req.body;
+    const { phone } = req.decoded;
+    // const { amount, phone } = req.body;
 
     const { accountNumber, balance } = await DB.findAccountByPhone(
       Account,

@@ -19,9 +19,9 @@ module.exports = {
           email: email,
           password: hashedPassword,
         };
-        const user = User.create(userObj);
+        const user = await User.create(userObj);
         return res.json({
-          // user: user,
+          user: user,
           message: "User Created Successfully",
         });
       } catch (error) {
@@ -57,6 +57,7 @@ module.exports = {
             expiresIn: "3 days",
             algorithm: "HS256",
           });
+          res.cookie("t", token, { expiresIn: new Date() + 9999 });
           res.json({
             message: "Auth Successful",
             token: token,
@@ -66,5 +67,12 @@ module.exports = {
         res.status(500).json({ message: "Auth failed" });
       }
     }
+  },
+
+  signOut: async (req, res) => {
+    res.clearCookie("t");
+    res.json({
+      message: "Signed out",
+    });
   },
 };
