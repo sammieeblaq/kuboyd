@@ -14,11 +14,11 @@ const accountSchema = new Schema(
     beneficiary: { type: Array },
     transactionHistory: { type: Array },
     savingsHistory: { type: Array },
-    balance: { type: Number, default: 0.0 },
-    subAccount: { type: Number, default: 0.0 },
+    balance: { type: Number, default: 0, min: 0 },
+    subAccount: { type: Number, default: 0, min: 0 },
     status: { type: String, default: "active", enum: ["active", "inactive"] },
   },
-  { timestamps: { createdAt: "created_at" } }
+  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
 module.exports = mongoose.model("Account", accountSchema);
