@@ -57,7 +57,10 @@ module.exports = {
             expiresIn: "3 days",
             algorithm: "HS256",
           });
-          res.cookie("t", token, { expiresIn: new Date() + 9999 });
+          res.cookie("t", token, {
+            expiresIn: new Date() + 9999,
+            httpOnly: true,
+          });
           res.json({
             message: "Auth Successful",
             token: token,

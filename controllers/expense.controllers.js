@@ -28,4 +28,34 @@ module.exports = {
       });
     }
   },
+
+  getExpenses: async (req, res) => {
+    try {
+      const expenses = await DB.find(Expense);
+      res.json({
+        status: 200,
+        expenses: expenses,
+      });
+    } catch (error) {
+      res.json({
+        status: 400,
+        message: "Unable to get expenses",
+      });
+    }
+  },
+
+  getExpense: async (req, res) => {
+    const { id } = req.query;
+    try {
+      const expense = await DB.findById(Expense, id);
+      if (!expense) return;
+      res.json({
+        status: 200,
+        expense: expense,
+      });
+    } catch (error) {
+      console.error(error);
+      throw new Error("Unable to get expenses");
+    }
+  },
 };
