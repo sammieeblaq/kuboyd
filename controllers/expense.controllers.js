@@ -7,25 +7,32 @@ module.exports = {
     const { phone } = req.decoded;
     const { title, amount, category, notes } = req.body;
 
-    try {
-      const { accountName } = await DB.findAccountByPhone(Account, phone);
-      const expense = await Expense.create({
-        title: title,
-        amount: amount,
-        category: category,
-        notes: notes,
-        recorded_by: accountName,
-      });
-      res.json({
-        status: 200,
-        expense: expense,
-        message: "Expense Created Successfully",
-      });
-    } catch (error) {
+    if (!title && !amount && !category && !notes)
       res.json({
         status: 400,
-        message: "Expense Creation unsuccessful",
+        message: "Kindly fill the parameters",
       });
+    else {
+      try {
+        const { accountName } = await DB.findAccountByPhone(Account, phone);
+        const expense = await Expense.create({
+          title: title,
+          amount: amount,
+          category: category,
+          notes: notes,
+          recorded_by: accountName,
+        });
+        res.json({
+          status: 200,
+          expense: expense,
+          message: "Expense Created Successfully",
+        });
+      } catch (error) {
+        res.json({
+          status: 400,
+          message: "Expense Creation unsuccessful",
+        });
+      }
     }
   },
 

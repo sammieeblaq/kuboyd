@@ -118,13 +118,15 @@ module.exports = {
     const { phone } = req.decoded;
     const { amount, recipient } = req.body;
 
+    if (!amount && !recipient) return;
+
     const { accountNumber } = await DB.findAccountByPhone(Account, phone);
     try {
       const [accountToDebit, accountToCredit] = await Promise.all([
         DB.findByAccountNumber(Account, accountNumber),
         DB.findByAccountNumber(Account, recipient),
       ]);
-      if (accountToDebit.balance >= 0) {
+      if (accountToDebit.balance >= 0 && accountToDebit.balance <= 100) {
         res.json({
           status: 400,
           message: "Insufficient Balance",
@@ -155,7 +157,10 @@ module.exports = {
         res.json(newTransaction);
       }
     } catch (error) {
-      if (error) res.status(500).json({ error: error });
+      res.json({
+        status: 500,
+        message: "Unable to complete the transaction... Please contact support",
+      });
     }
   },
 

@@ -2,6 +2,7 @@ const User = require("../models/user.models");
 const encryption = require("../middleware/encryption");
 const DB = require("../utils/db.utils");
 const jwt = require("jsonwebtoken");
+const expressJwt = require("express-jwt");
 
 module.exports = {
   signUp: async (req, res) => {
@@ -78,4 +79,9 @@ module.exports = {
       message: "Signed out",
     });
   },
+
+  requireSignIn: expressJwt({
+    secret: process.env.JWT_SECRET,
+    algorithms: ["HS256"],
+  }),
 };

@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
+// console.log(process.env);
+
+const { NODE_ENV, MONGO_URL, MONGO_LIVE } = process.env;
 
 const connectDb = () => {
   try {
-    mongoose.connect(process.env.MONGO_URL, {
+    mongoose.connect(NODE_ENV == "production" ? MONGO_LIVE : MONGO_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
@@ -10,10 +13,7 @@ const connectDb = () => {
     });
     console.info("Connected the the database 🔥");
   } catch (error) {
-    res.json({
-      status: 400,
-      message: "Unable to connect ❌ to the database 😞",
-    });
+    console.log(error);
   }
 };
 
