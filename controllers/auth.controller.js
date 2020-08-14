@@ -22,6 +22,7 @@ module.exports = {
         };
         const user = await User.create(userObj);
         return res.json({
+          status: 201,
           user: user,
           message: "User Created Successfully",
         });
@@ -35,17 +36,17 @@ module.exports = {
     const { email, password } = req.body;
     if (!email && !password) {
       res.json({
-        status: 401,
+        status: 400,
         message: "Fill in the right details please",
       });
     } else {
-      const user = await DB.findByEmail(User, email);
-      if (!user) {
-        return res.status(401).json({
-          message: "User does not exist!!! Please sign up",
-        });
-      }
       try {
+        const user = await DB.findByEmail(User, email);
+        if (!user) {
+          return res.status(401).json({
+            message: "User does not exist!!! Please sign up",
+          });
+        }
         const result = await encryption.validatePassword(password, user);
         if (result) {
           const newObj = {
@@ -63,12 +64,14 @@ module.exports = {
             httpOnly: true,
           });
           res.json({
+            status: 201,
             message: "Auth Successful",
             token: token,
           });
         }
       } catch (error) {
-        res.status(500).json({ message: "Auth failed" });
+        res.json({ message: error });
+        // console.log(error);
       }
     }
   },
