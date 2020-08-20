@@ -2,11 +2,11 @@ const request = require("supertest");
 const app = require("../app/app");
 const db = require("../config/db");
 
-describe("Account Endpoints", () => {
-  beforeEach(() => {
-    db.connect_test();
-  });
+beforeAll(() => {
+  db.connect_test();
+});
 
+describe("Enpoint for posting an account", () => {
   test("post an account", async (done) => {
     const response = await request(app).post("/accounts").send({
       id: 1,
@@ -24,15 +24,22 @@ describe("Account Endpoints", () => {
     expect(response.body).toHaveProperty("accountNumber");
     done();
   });
+});
 
-  const accNumber = 227675259;
-
-  test("Get accounts by id", async (done, accNumber) => {
-    const response = await request(app).get(`/accounts?accNumber=${accNumber}`);
-    expect(response.body).toBe(200);
+describe("Endpoint for getting an account by account number", () => {
+  test("get account by account number", async (done) => {
+    const response = await request(app).get(`/account?accNumber=${9074840226}`);
+    expect(response.statusCode).toBe(200);
+    expect(typeof response.body).toBe("object");
+    expect(response.body).toHaveProperty("uuid");
+    expect(response.body).toHaveProperty("accountName");
+    expect(response.body).toHaveProperty("accountNumber");
+    expect(response.body).toHaveProperty("status");
+    expect(response.body).toHaveProperty("accountBalance");
+    done();
   });
+});
 
-  afterEach((done) => {
-    db.disconnect(done);
-  });
+afterAll((done) => {
+  db.disconnect(done);
 });
