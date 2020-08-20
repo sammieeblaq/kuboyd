@@ -1,13 +1,10 @@
 require("dotenv").config();
-const connectDb = require("../config/db");
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const logger = require("morgan");
 const helmet = require("helmet");
 const compression = require("compression");
-// const session = require("express-session");
-connectDb();
 
 app.use(logger("dev"));
 app.use(helmet());

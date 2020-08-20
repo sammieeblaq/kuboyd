@@ -1,4 +1,7 @@
 const app = require("./app/app");
+const connection = require("./config/db");
+
+connection.connect();
 
 app.listen(process.env.PORT || process.env.port, (err) => {
   if (err) console.err(err);
