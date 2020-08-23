@@ -5,6 +5,7 @@
   "main": "ecosystem.config.js",
   "scripts": {
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
