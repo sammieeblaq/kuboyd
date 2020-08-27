@@ -1,4 +1,4 @@
-const Savings = require("../models/saving.models");
+const Savings = require("../models/save.models");
 const Account = require("../models/account.models");
 const transaction = require("../services/transaction.services");
 const DB = require("../utils/db.utils");

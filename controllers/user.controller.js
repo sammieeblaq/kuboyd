@@ -25,7 +25,7 @@ module.exports = {
     const { id } = req.query;
     const { role } = req.body;
     try {
-      const staff = await DB.updateUser(User, id, role);
+      const staff = await DB.updateUserRole(User, id, role);
       res.json({
         updated: staff,
         message: "Staff Created Successfully",
@@ -41,7 +41,19 @@ module.exports = {
       const staffs = await DB.findStaffs(User, role);
       if (staffs) res.json({ staffs });
     } catch (error) {
+      console.error(error);
       throw new Error("Unable to get the staffs with tht role");
+    }
+  },
+
+  getStaff: async (req, res) => {
+    const { id } = req.query;
+    try {
+      const staff = await DB.findById(User, id);
+      if (staff) res.json({ staff });
+    } catch (error) {
+      console.log(error);
+      throw new Error("Unable to get staff");
     }
   },
 

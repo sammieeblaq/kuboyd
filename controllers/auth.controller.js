@@ -76,6 +76,26 @@ module.exports = {
     }
   },
 
+  resetPassword: async (req, res) => {
+    const { newPassword, confirmPassword } = req.body;
+    try {
+      if (newPassword === confirmPassword) {
+        const hashedPassword = await encryption.encryptPassword(newPassword);
+        await DB.updateUserPassword(User, hashedPassword);
+        return res.json({
+          status: 201,
+          message: "Password updated successfully",
+        });
+      }
+      return res.json({
+        status: 401,
+        message: "Password does not match.. Kindly confirm the new password",
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   signOut: async (req, res) => {
     res.clearCookie("t");
     res.json({

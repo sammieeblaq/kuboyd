@@ -1,3 +1,5 @@
+const { model } = require("../models/user.models");
+
 // Database uitlities
 module.exports = {
   find: (model) => model.find({}).sort({ created: -1 }),
@@ -28,12 +30,15 @@ module.exports = {
       { new: true }
     ),
 
-  updateUser: (model, id, role) =>
+  updateUserRole: (model, id, role) =>
     model.findOneAndUpdate(
       { _id: id },
       { $set: { role: role } },
       { new: true }
     ),
+
+  updateUserPassword: (model, newPassword) =>
+    model.findOneAndUpdate({ $set: { password: newPassword } }),
 
   incrementAccount: (model, accNumber, amount) =>
     model.findOneAndUpdate(

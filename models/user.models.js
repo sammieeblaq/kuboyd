@@ -12,7 +12,7 @@ const UserSchema = new Schema(
     password: { type: String, required: true },
     role: { type: Number, default: 0, max: 1 },
   },
-  { timestamps: { createdAt: "created_at" } }
+  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
 module.exports = mongoose.model("User", UserSchema);
