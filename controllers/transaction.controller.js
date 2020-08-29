@@ -177,6 +177,11 @@ module.exports = {
     const { id } = req.query;
     try {
       const transaction = await DB.findById(Transaction, id);
+      if (!transaction)
+        return res.json({
+          status: 401,
+          message: "Transaction with that Id does not exist",
+        });
       res.json(transaction);
     } catch (error) {
       if (error)
@@ -191,9 +196,13 @@ module.exports = {
     const { id } = req.query;
     try {
       const transaction = await DB.deleteOne(Transaction, id);
+      if (!transaction)
+        return res.json({
+          status: 401,
+          message: "There's no transaction with that Id",
+        });
       res.json({
         message: "Transaction deleted from Account",
-        deleted: transaction,
       });
     } catch (error) {
       console.error(

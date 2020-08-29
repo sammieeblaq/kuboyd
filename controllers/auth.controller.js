@@ -96,6 +96,10 @@ module.exports = {
     }
   },
 
+  // changePassword: async (req, res) => {
+  //   const { oldPassword, newPassword, confirmPassword } = req.body;
+  // },
+
   signOut: async (req, res) => {
     res.clearCookie("t");
     res.json({
