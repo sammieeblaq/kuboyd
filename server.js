@@ -1,5 +1,5 @@
 const app = require("./app/app");
-const connection = require("./config/db");
+const connection = require("./config/db.config");
 
 connection.connect();
 

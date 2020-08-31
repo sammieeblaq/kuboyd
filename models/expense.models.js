@@ -4,6 +4,7 @@ const { v1 } = require("uuid");
 
 const expenseSchema = new Schema(
   {
+    uuid: { type: String, default: v1 },
     title: { type: String, trim: true },
     amount: { type: Number, min: 0, required: "Amount is required" },
     category: { type: String, trim: true },
